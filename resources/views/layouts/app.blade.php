@@ -28,11 +28,8 @@
                     </div>
                     <a href="/" class="text-xl font-bold bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent">AquaCare</a>
                 </div>
-                <!-- Menu Utama -->
+                <!-- Menu Utama (Sprint 1: PBI-01 & PBI-12) -->
                 <div class="hidden md:flex items-center space-x-6 text-sm font-medium">
-                    <a href="/peta" class="text-slate-600 hover:text-blue-600 transition flex items-center gap-1">
-                        🗺️ Peta Titik Air (PBI-10)
-                    </a>
                     <a href="/edukasi" class="text-slate-600 hover:text-blue-600 transition flex items-center gap-1">
                         📚 Edukasi Warga (PBI-12)
                     </a>
@@ -41,7 +38,7 @@
                         ⚙️ Kelola Titik Air (PBI-01)
                     </a>
                     <a href="/admin/announcements" class="text-slate-600 hover:text-blue-600 transition flex items-center gap-1">
-                        📢 Kelola Konten
+                        📢 Kelola Konten (PBI-12)
                     </a>
                 </div>
                 <!-- User Profile dummy -->

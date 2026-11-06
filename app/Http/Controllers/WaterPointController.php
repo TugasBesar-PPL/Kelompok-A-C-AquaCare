@@ -174,38 +174,5 @@ class WaterPointController extends Controller
 
         return redirect()->route('water-points.index')->with('success', 'Titik sumber air berhasil dihapus.');
     }
-
-    /**
-     * PBI-10: Peta Sebaran Titik Air
-     * Endpoint API: GET /map/water-points
-     * Web Route: GET /peta
-     */
-    public function map(Request $request)
-    {
-        $filters = $request->only(['status', 'wilayah']);
-        $points = TitikSumberAir::filter($filters)->get([
-            'titik_air_id',
-            'nama',
-            'jenis',
-            'alamat',
-            'wilayah',
-            'latitude',
-            'longitude',
-            'foto',
-            'status_terkini',
-            'pengukuran_terakhir'
-        ]);
-
-        if ($request->wantsJson() || $request->is('api/*')) {
-            return response()->json([
-                'success' => true,
-                'data' => $points
-            ]);
-        }
-
-        $daftarWilayah = TitikSumberAir::distinct()->pluck('wilayah');
-
-        return view('water-points.map', compact('points', 'daftarWilayah', 'filters'));
-    }
 }
 

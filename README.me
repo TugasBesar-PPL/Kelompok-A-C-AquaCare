@@ -1,1 +1,109 @@
-Bismilah Ya Allah
+# AquaCare - Bagian Fadhlan
+
+Dokumentasi PBI yang gw pegang di proyek AquaCare (platform monitoring dan pelaporan air bersih), Tugas Besar PPL Kelompok A-C.
+
+Muhammad Fadhlan Setyawan (102022400084), Fullstack & UI/UX  
+PBI: **PBI-01** Titik Sumber Air, **PBI-10** Peta Sebaran, **PBI-12** Pengumuman & Edukasi
+
+Branch: `Fadhlan`  
+Jira: TP-1 (PBI-01), TP-10 (PBI-10), TP-12 (PBI-12)
+
+---
+
+## PBI-01: Manajemen Data Titik Sumber Air
+
+**Tujuan:** nyediain data induk titik sumber air. Hampir semua fitur lain (pengukuran, jadwal, peta, dashboard) butuh data titik ini, jadi ini fondasinya.
+
+**User story:** sebagai admin, gw mau nambah, liat, ubah, dan hapus data titik sumber air (jenis, nama, alamat, wilayah, koordinat, foto) biar lokasi pemantauan terdaftar jelas.
+
+**Fungsi:**
+- Admin nambah titik baru: jenis, nama, alamat, wilayah, latitude, longitude, foto (opsional)
+- Semua user yang login bisa liat daftar titik dan detailnya
+- Daftar bisa difilter berdasarkan wilayah, jenis, dan status
+- Admin bisa ubah dan hapus titik
+- Tiap titik nyimpen `status_terkini` dan `pengukuran_terakhir` (diisi otomatis dari PBI-04 pas ada pengukuran)
+
+**Validasi:**
+- Data wajib ga boleh kosong
+- Koordinat harus valid
+- Titik yang udah punya pengukuran ga bisa dihapus
+
+**Endpoint:**
+
+| Method | Endpoint | Fungsi | Akses |
+|---|---|---|---|
+| POST | /water-points | Tambah titik | admin |
+| GET | /water-points | Daftar titik | semua yang login |
+| GET | /water-points/:id | Detail titik | semua yang login |
+| PUT | /water-points/:id | Ubah titik | admin |
+| DELETE | /water-points/:id | Hapus titik | admin |
+
+**Tabel:** `titik_sumber_air` (lihat `database/titik_sumber_air.sql`)
+
+---
+
+## PBI-10: Peta Sebaran Titik Air
+
+**Tujuan:** nampilin kondisi air per wilayah secara visual, jadi warga, petugas, dan admin bisa langsung liat titik mana yang aman dan mana yang bermasalah tanpa baca tabel.
+
+**User story:** sebagai pengguna, gw mau liat peta titik sumber air dengan warna sesuai status kelayakan, nyaring berdasarkan status dan wilayah, dan liat detail singkat titik.
+
+**Fungsi:**
+- Peta nampilin marker per titik, warnanya sesuai status (Layak, Waspada, Tidak Layak)
+- Filter berdasarkan status dan wilayah
+- Klik marker buat liat detail singkat: nama, jenis, alamat, status, pengukuran terakhir
+- Kalau ga ada titik yang cocok sama filter, muncul pesan kosong
+
+**Endpoint:**
+
+| Method | Endpoint | Fungsi | Akses |
+|---|---|---|---|
+| GET | /map/water-points | Data titik buat marker | semua yang login |
+
+**Teknologi peta:** Leaflet + OpenStreetMap
+
+**Ketergantungan:** butuh data titik dari PBI-01 dan status kelayakan dari PBI-04 (Krisna).
+
+---
+
+## PBI-12: Pengumuman dan Edukasi Air Bersih
+
+**Tujuan:** ningkatin kesadaran warga soal air bersih lewat pengumuman dan artikel edukasi dari admin.
+
+**User story:** sebagai admin, gw mau nerbitin, ngubah, dan ngehapus pengumuman dan artikel edukasi beserta gambar yang bisa dibaca warga.
+
+**Fungsi:**
+- Admin bikin konten: judul, isi, tipe (pengumuman atau edukasi), gambar
+- Admin ubah dan hapus konten
+- Warga (dan user login lainnya) bisa liat daftar dan baca isi lengkap
+
+**Validasi:**
+- Judul dan isi wajib diisi
+- Gambar harus JPG atau PNG, maksimal 5 MB
+
+**Endpoint:**
+
+| Method | Endpoint | Fungsi | Akses |
+|---|---|---|---|
+| POST | /announcements | Terbitin konten | admin |
+| GET | /announcements | Daftar konten | semua yang login |
+| GET | /announcements/:id | Detail konten | semua yang login |
+| PUT | /announcements/:id | Ubah konten | admin |
+| DELETE | /announcements/:id | Hapus konten | admin |
+
+---
+
+## Status
+
+| PBI | Sprint | Status |
+|---|---|---|
+| PBI-01 | Sprint 1 | Selesai (CRUD Titik Air & Filter) |
+| PBI-12 | Sprint 1 | Selesai (Pengumuman & Edukasi Warga) |
+| PBI-10 | Sprint 2 | Dijadwalkan Sprint 2 (Disimpan di branch sprint-2-pbi-10) |
+
+## Tech stack
+
+- Backend: Laravel / Node.js Express (sesuai kesepakatan tim)
+- Database: MySQL
+- Peta: Leaflet + OpenStreetMap
+- Frontend: Blade / Tailwind CSS

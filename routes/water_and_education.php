@@ -6,15 +6,14 @@ use App\Http\Controllers\AnnouncementController;
 
 /*
 |--------------------------------------------------------------------------
-| AquaCare - Rute PBI Fadhlan:
+| AquaCare - Rute PBI Fadhlan (Sprint 1):
 | - PBI-01: Manajemen Data Titik Sumber Air
-| - PBI-10: Peta Sebaran Titik Air
-| - PBI-12: Pengumuman dan Edukasi Air Bersih
+| - PBI-12: Pengumuman & Edukasi Air Bersih
 |--------------------------------------------------------------------------
 */
 
 // ==========================================
-// 1. ENDPOINT REST API (Sesuai Tabel 15 Proposal)
+// 1. ENDPOINT REST API (PBI-01 & PBI-12)
 // ==========================================
 Route::prefix('api')->group(function () {
 
@@ -25,10 +24,7 @@ Route::prefix('api')->group(function () {
     Route::put('/water-points/{id}', [WaterPointController::class, 'update']);
     Route::delete('/water-points/{id}', [WaterPointController::class, 'destroy']);
 
-    // PBI-10: Data Titik untuk Marker Peta Berwarna
-    Route::get('/map/water-points', [WaterPointController::class, 'map']);
-
-    // PBI-12: Pengumuman & Edukasi
+    // PBI-12: Pengumuman & Edukasi Air Bersih
     Route::get('/announcements', [AnnouncementController::class, 'index']);
     Route::post('/announcements', [AnnouncementController::class, 'store']);
     Route::get('/announcements/{id}', [AnnouncementController::class, 'show']);
@@ -41,17 +37,13 @@ Route::prefix('api')->group(function () {
 // ==========================================
 Route::middleware(['web'])->group(function () {
 
-    // PBI-10: Peta Sebaran Interaktif (Warga, Petugas, Admin)
-    Route::get('/peta', [WaterPointController::class, 'map'])->name('water-points.map');
-
     // PBI-12: Portal Edukasi Air Bersih untuk Warga
     Route::get('/edukasi', [AnnouncementController::class, 'portalWarga'])->name('announcements.warga');
     Route::get('/edukasi/{id}', [AnnouncementController::class, 'show'])->name('announcements.warga.show');
 
-    // Admin Panel: Titik Sumber Air (PBI-01)
+    // Admin Panel (PBI-01 & PBI-12)
     Route::prefix('admin')->group(function () {
         Route::resource('water-points', WaterPointController::class);
         Route::resource('announcements', AnnouncementController::class);
     });
 });
-
