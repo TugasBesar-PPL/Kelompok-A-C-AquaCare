@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -22,6 +21,11 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
+        'is_active',
+        'login_gagal',
+        'terkunci_sampai',
+        'phone',
     ];
 
     /**
@@ -44,6 +48,38 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_active' => 'boolean',
+            'terkunci_sampai' => 'datetime',
         ];
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin';
+    }
+
+    public function isPetugas(): bool
+    {
+        return $this->role === 'petugas';
+    }
+
+    public function isWarga(): bool
+    {
+        return $this->role === 'warga';
+    }
+
+    public function laporanDibuat()
+    {
+        return $this->hasMany(LaporanMasalahAir::class, 'user_id');
+    }
+
+    public function laporanDitugaskan()
+    {
+        return $this->hasMany(LaporanMasalahAir::class, 'petugas_id');
+    }
+
+    public function laporanDiverifikasi()
+    {
+        return $this->hasMany(LaporanMasalahAir::class, 'admin_verifikator_id');
     }
 }
