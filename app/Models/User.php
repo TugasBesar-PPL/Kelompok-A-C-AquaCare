@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -22,6 +23,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
+        'is_active',
+        'failed_login_attempts',
+        'locked_until',
     ];
 
     /**
@@ -44,6 +49,48 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_active' => 'boolean',
+            'locked_until' => 'datetime',
         ];
+    }
+
+    /**
+     * Cek apakah user memiliki role tertentu.
+     */
+    public function hasRole(string $role): bool
+    {
+        return $this->role === $role;
+    }
+
+    /**
+     * Cek apakah user adalah admin.
+     */
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin';
+    }
+
+    /**
+     * Cek apakah user adalah petugas.
+     */
+    public function isPetugas(): bool
+    {
+        return $this->role === 'petugas';
+    }
+
+    /**
+     * Cek apakah user adalah warga.
+     */
+    public function isWarga(): bool
+    {
+        return $this->role === 'warga';
+    }
+
+    /**
+     * Relasi ke audit logs (log aktivitas yang dilakukan user ini).
+     */
+    public function auditLogs(): HasMany
+    {
+        return $this->hasMany(AuditLog::class, 'user_id');
     }
 }
