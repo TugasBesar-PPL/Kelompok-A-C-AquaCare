@@ -1,59 +1,81 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# AquaCare - Bagian Fadhlan (Sprint 1)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Platform monitoring dan pelaporan air bersih, Tugas Besar PPL Kelompok A-C.
+README ini isinya bagian gw aja.
 
-## About Laravel
+Muhammad Fadhlan Setyawan, Fullstack & UI/UX  
+Branch: `KelompokC_Fadhlan`  
+PBI Sprint 1: PBI-01 (TP-1) dan PBI-12 (TP-12). PBI-10 (peta) masuk Sprint 2.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Tech stack
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- Laravel 12 (Blade) + Tailwind CSS
+- Database: SQLite (`database/database.sqlite`) buat development
+- Test: PHPUnit, pake SQLite in-memory jadi data dev ga kesentuh
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Cara jalanin
 
-## Learning Laravel
+```bash
+composer install
+cp .env.example .env
+php artisan key:generate
+php artisan migrate --seed
+php artisan serve
+```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+Buka `http://127.0.0.1:8000`
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+| Halaman | URL |
+|---|---|
+| Admin kelola titik air | /admin/water-points |
+| Admin kelola konten | /admin/announcements |
+| Edukasi warga | /edukasi |
+| API titik air | /api/water-points |
+| API pengumuman | /api/announcements |
 
-## Laravel Sponsors
+## PBI-01: Manajemen Data Titik Sumber Air
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+**Tujuan:** nyediain data induk titik sumber air. Fitur lain (pengukuran, jadwal, peta, dashboard) butuh data ini.
 
-### Premium Partners
+**Yang udah jalan:**
+- CRUD titik air: nama, jenis, alamat, wilayah, latitude, longitude, foto (opsional)
+- Cari nama/alamat, filter jenis, wilayah, status
+- Validasi pake Form Request, pesan error bahasa Indonesia di bawah field
+- Web (Blade) dan REST API, API balikin JSON 422 kalau validasi gagal
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+**Aturan validasi:**
+- nama, jenis, alamat, wilayah wajib, maks 255 karakter
+- latitude -90 sampai 90, longitude -180 sampai 180
+- foto opsional, JPG/PNG, maks 5 MB
 
-## Contributing
+**Belum:** aturan "titik yang udah punya pengukuran ga bisa dihapus". Nunggu tabel pengukuran (PBI-03) dari Krisna masuk.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## PBI-12: Pengumuman dan Edukasi Air Bersih
 
-## Code of Conduct
+**Tujuan:** ningkatin kesadaran warga soal air bersih lewat pengumuman dan artikel edukasi.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+**Yang udah jalan:**
+- Admin bikin, ubah, hapus konten (judul, isi, tipe pengumuman/edukasi, gambar)
+- Warga baca daftar dan detail di /edukasi, bisa filter per kategori
+- Status publikasi: Draft & Published (warga di `/edukasi` cuma bisa baca konten yang berstatus Published)
+- Validasi Form Request + pesan error bahasa Indonesia, API balikin JSON 422
 
-## Security Vulnerabilities
+**Aturan validasi:**
+- judul dan isi wajib
+- tipe cuma `pengumuman` atau `edukasi`
+- gambar opsional, JPG/PNG, maks 5 MB
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Catatan
 
-## License
+- Data di tabel dan artikel masih dummy dari seeder
+- Kolom "Status Terkini" dan "Uji Terakhir" baru bener-bener keisi setelah PBI-03/04 (Krisna) masuk
+- Login dan role admin itu fitur dasar punya Arrival, belum ada di branch gw, jadi sementara halaman admin belum diproteksi
+- Endpoint di Laravel pake prefix (`/admin/...`, `/api/...`), beda dikit dari proposal (`/water-points`)
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Status
+
+| PBI | Sprint | Status |
+|---|---|---|
+| PBI-01 | 1 | CRUD, filter, validasi jalan. Aturan hapus menyusul |
+| PBI-12 | 1 | CRUD, tampil ke warga, validasi jalan |
+| PBI-10 | 2 | Sprint 2, belum dikerjain di branch ini |
