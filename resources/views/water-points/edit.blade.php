@@ -31,39 +31,54 @@
             <!-- Nama Titik -->
             <div>
                 <label class="block text-xs font-semibold text-slate-700 mb-1">Nama Titik Air *</label>
-                <input type="text" name="nama" value="{{ old('nama', $point->nama) }}" required class="w-full text-xs border border-slate-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500">
+                <input type="text" name="nama" value="{{ old('nama', $point->nama) }}" required class="w-full text-xs border @error('nama') border-rose-500 ring-1 ring-rose-500 @else border-slate-300 @enderror rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500">
+                @error('nama')
+                    <p class="text-xs text-rose-600 mt-1 font-medium">{{ $message }}</p>
+                @enderror
             </div>
 
             <!-- Jenis Titik -->
             <div>
                 <label class="block text-xs font-semibold text-slate-700 mb-1">Jenis Titik Air *</label>
-                <select name="jenis" required class="w-full text-xs border border-slate-300 rounded-lg px-3 py-2 bg-slate-50 focus:ring-2 focus:ring-blue-500">
+                <select name="jenis" required class="w-full text-xs border @error('jenis') border-rose-500 ring-1 ring-rose-500 @else border-slate-300 @enderror rounded-lg px-3 py-2 bg-slate-50 focus:ring-2 focus:ring-blue-500">
                     <option value="">Pilih Jenis</option>
                     @foreach(['Sumur Bor', 'Sumur Gali', 'Mata Air', 'PDAM', 'Kran Umum'] as $jns)
                         <option value="{{ $jns }}" {{ old('jenis', $point->jenis) == $jns ? 'selected' : '' }}>{{ $jns }}</option>
                     @endforeach
                 </select>
+                @error('jenis')
+                    <p class="text-xs text-rose-600 mt-1 font-medium">{{ $message }}</p>
+                @enderror
             </div>
 
             <!-- Wilayah -->
             <div>
                 <label class="block text-xs font-semibold text-slate-700 mb-1">Wilayah (RW / Dusun / Kelurahan) *</label>
-                <input type="text" name="wilayah" value="{{ old('wilayah', $point->wilayah) }}" required class="w-full text-xs border border-slate-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500">
+                <input type="text" name="wilayah" value="{{ old('wilayah', $point->wilayah) }}" required class="w-full text-xs border @error('wilayah') border-rose-500 ring-1 ring-rose-500 @else border-slate-300 @enderror rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500">
+                @error('wilayah')
+                    <p class="text-xs text-rose-600 mt-1 font-medium">{{ $message }}</p>
+                @enderror
             </div>
 
             <!-- Foto -->
             <div>
                 <label class="block text-xs font-semibold text-slate-700 mb-1">Foto Titik Air (Biarkan kosong jika tidak diganti)</label>
-                <input type="file" name="foto" accept="image/png, image/jpeg, image/jpg" class="w-full text-xs border border-slate-300 rounded-lg px-3 py-1.5 file:mr-3 file:py-1 file:px-2.5 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                <input type="file" name="foto" accept="image/png, image/jpeg, image/jpg" class="w-full text-xs border @error('foto') border-rose-500 ring-1 ring-rose-500 @else border-slate-300 @enderror rounded-lg px-3 py-1.5 file:mr-3 file:py-1 file:px-2.5 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
                 @if($point->foto)
                     <p class="text-[10px] text-slate-500 mt-1">Foto saat ini tersimpan: {{ basename($point->foto) }}</p>
                 @endif
+                @error('foto')
+                    <p class="text-xs text-rose-600 mt-1 font-medium">{{ $message }}</p>
+                @enderror
             </div>
 
             <!-- Alamat Lengkap -->
             <div class="md:col-span-2">
                 <label class="block text-xs font-semibold text-slate-700 mb-1">Alamat Lengkap *</label>
-                <textarea name="alamat" rows="2" required class="w-full text-xs border border-slate-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500">{{ old('alamat', $point->alamat) }}</textarea>
+                <textarea name="alamat" rows="2" required class="w-full text-xs border @error('alamat') border-rose-500 ring-1 ring-rose-500 @else border-slate-300 @enderror rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500">{{ old('alamat', $point->alamat) }}</textarea>
+                @error('alamat')
+                    <p class="text-xs text-rose-600 mt-1 font-medium">{{ $message }}</p>
+                @enderror
             </div>
         </div>
 
@@ -81,12 +96,18 @@
 
             <div class="grid grid-cols-2 gap-4">
                 <div>
-                    <label class="block text-[11px] font-semibold text-slate-600 mb-1">Latitude *</label>
-                    <input type="number" step="any" id="latitude" name="latitude" value="{{ old('latitude', $point->latitude) }}" required class="w-full text-xs font-mono border border-slate-300 rounded-lg px-3 py-1.5 focus:ring-2 focus:ring-blue-500">
+                    <label class="block text-[11px] font-semibold text-slate-600 mb-1">Latitude * (-90 sampai 90)</label>
+                    <input type="number" step="any" id="latitude" name="latitude" value="{{ old('latitude', $point->latitude) }}" required class="w-full text-xs font-mono border @error('latitude') border-rose-500 ring-1 ring-rose-500 @else border-slate-300 @enderror rounded-lg px-3 py-1.5 focus:ring-2 focus:ring-blue-500">
+                    @error('latitude')
+                        <p class="text-xs text-rose-600 mt-1 font-medium">{{ $message }}</p>
+                    @enderror
                 </div>
                 <div>
-                    <label class="block text-[11px] font-semibold text-slate-600 mb-1">Longitude *</label>
-                    <input type="number" step="any" id="longitude" name="longitude" value="{{ old('longitude', $point->longitude) }}" required class="w-full text-xs font-mono border border-slate-300 rounded-lg px-3 py-1.5 focus:ring-2 focus:ring-blue-500">
+                    <label class="block text-[11px] font-semibold text-slate-600 mb-1">Longitude * (-180 sampai 180)</label>
+                    <input type="number" step="any" id="longitude" name="longitude" value="{{ old('longitude', $point->longitude) }}" required class="w-full text-xs font-mono border @error('longitude') border-rose-500 ring-1 ring-rose-500 @else border-slate-300 @enderror rounded-lg px-3 py-1.5 focus:ring-2 focus:ring-blue-500">
+                    @error('longitude')
+                        <p class="text-xs text-rose-600 mt-1 font-medium">{{ $message }}</p>
+                    @enderror
                 </div>
             </div>
         </div>

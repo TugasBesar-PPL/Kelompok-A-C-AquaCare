@@ -30,13 +30,16 @@
             <!-- Nama Titik -->
             <div>
                 <label class="block text-xs font-semibold text-slate-700 mb-1">Nama Titik Air *</label>
-                <input type="text" name="nama" value="{{ old('nama') }}" required placeholder="Contoh: Sumur Bor RW 03" class="w-full text-xs border border-slate-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500">
+                <input type="text" name="nama" value="{{ old('nama') }}" required placeholder="Contoh: Sumur Bor RW 03" class="w-full text-xs border @error('nama') border-rose-500 ring-1 ring-rose-500 @else border-slate-300 @enderror rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500">
+                @error('nama')
+                    <p class="text-xs text-rose-600 mt-1 font-medium">{{ $message }}</p>
+                @enderror
             </div>
 
             <!-- Jenis Titik -->
             <div>
                 <label class="block text-xs font-semibold text-slate-700 mb-1">Jenis Titik Air *</label>
-                <select name="jenis" required class="w-full text-xs border border-slate-300 rounded-lg px-3 py-2 bg-slate-50 focus:ring-2 focus:ring-blue-500">
+                <select name="jenis" required class="w-full text-xs border @error('jenis') border-rose-500 ring-1 ring-rose-500 @else border-slate-300 @enderror rounded-lg px-3 py-2 bg-slate-50 focus:ring-2 focus:ring-blue-500">
                     <option value="">Pilih Jenis</option>
                     <option value="Sumur Bor" {{ old('jenis') == 'Sumur Bor' ? 'selected' : '' }}>Sumur Bor</option>
                     <option value="Sumur Gali" {{ old('jenis') == 'Sumur Gali' ? 'selected' : '' }}>Sumur Gali</option>
@@ -44,24 +47,36 @@
                     <option value="PDAM" {{ old('jenis') == 'PDAM' ? 'selected' : '' }}>PDAM</option>
                     <option value="Kran Umum" {{ old('jenis') == 'Kran Umum' ? 'selected' : '' }}>Kran Umum</option>
                 </select>
+                @error('jenis')
+                    <p class="text-xs text-rose-600 mt-1 font-medium">{{ $message }}</p>
+                @enderror
             </div>
 
             <!-- Wilayah -->
             <div>
                 <label class="block text-xs font-semibold text-slate-700 mb-1">Wilayah (RW / Dusun / Kelurahan) *</label>
-                <input type="text" name="wilayah" value="{{ old('wilayah') }}" required placeholder="Contoh: RW 03" class="w-full text-xs border border-slate-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500">
+                <input type="text" name="wilayah" value="{{ old('wilayah') }}" required placeholder="Contoh: RW 03" class="w-full text-xs border @error('wilayah') border-rose-500 ring-1 ring-rose-500 @else border-slate-300 @enderror rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500">
+                @error('wilayah')
+                    <p class="text-xs text-rose-600 mt-1 font-medium">{{ $message }}</p>
+                @enderror
             </div>
 
             <!-- Foto -->
             <div>
                 <label class="block text-xs font-semibold text-slate-700 mb-1">Foto Titik Air (Opsional, Max 5MB JPG/PNG)</label>
-                <input type="file" name="foto" accept="image/png, image/jpeg, image/jpg" class="w-full text-xs border border-slate-300 rounded-lg px-3 py-1.5 file:mr-3 file:py-1 file:px-2.5 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                <input type="file" name="foto" accept="image/png, image/jpeg, image/jpg" class="w-full text-xs border @error('foto') border-rose-500 ring-1 ring-rose-500 @else border-slate-300 @enderror rounded-lg px-3 py-1.5 file:mr-3 file:py-1 file:px-2.5 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                @error('foto')
+                    <p class="text-xs text-rose-600 mt-1 font-medium">{{ $message }}</p>
+                @enderror
             </div>
 
             <!-- Alamat Lengkap -->
             <div class="md:col-span-2">
                 <label class="block text-xs font-semibold text-slate-700 mb-1">Alamat Lengkap *</label>
-                <textarea name="alamat" rows="2" required placeholder="Contoh: Jl. Melati No. 12, RT 02 / RW 03" class="w-full text-xs border border-slate-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500">{{ old('alamat') }}</textarea>
+                <textarea name="alamat" rows="2" required placeholder="Contoh: Jl. Melati No. 12, RT 02 / RW 03" class="w-full text-xs border @error('alamat') border-rose-500 ring-1 ring-rose-500 @else border-slate-300 @enderror rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500">{{ old('alamat') }}</textarea>
+                @error('alamat')
+                    <p class="text-xs text-rose-600 mt-1 font-medium">{{ $message }}</p>
+                @enderror
             </div>
         </div>
 
@@ -79,12 +94,18 @@
 
             <div class="grid grid-cols-2 gap-4">
                 <div>
-                    <label class="block text-[11px] font-semibold text-slate-600 mb-1">Latitude *</label>
-                    <input type="number" step="any" id="latitude" name="latitude" value="{{ old('latitude', -6.9745210) }}" required class="w-full text-xs font-mono border border-slate-300 rounded-lg px-3 py-1.5 focus:ring-2 focus:ring-blue-500">
+                    <label class="block text-[11px] font-semibold text-slate-600 mb-1">Latitude * (-90 sampai 90)</label>
+                    <input type="number" step="any" id="latitude" name="latitude" value="{{ old('latitude', -6.9745210) }}" required class="w-full text-xs font-mono border @error('latitude') border-rose-500 ring-1 ring-rose-500 @else border-slate-300 @enderror rounded-lg px-3 py-1.5 focus:ring-2 focus:ring-blue-500">
+                    @error('latitude')
+                        <p class="text-xs text-rose-600 mt-1 font-medium">{{ $message }}</p>
+                    @enderror
                 </div>
                 <div>
-                    <label class="block text-[11px] font-semibold text-slate-600 mb-1">Longitude *</label>
-                    <input type="number" step="any" id="longitude" name="longitude" value="{{ old('longitude', 107.6301240) }}" required class="w-full text-xs font-mono border border-slate-300 rounded-lg px-3 py-1.5 focus:ring-2 focus:ring-blue-500">
+                    <label class="block text-[11px] font-semibold text-slate-600 mb-1">Longitude * (-180 sampai 180)</label>
+                    <input type="number" step="any" id="longitude" name="longitude" value="{{ old('longitude', 107.6301240) }}" required class="w-full text-xs font-mono border @error('longitude') border-rose-500 ring-1 ring-rose-500 @else border-slate-300 @enderror rounded-lg px-3 py-1.5 focus:ring-2 focus:ring-blue-500">
+                    @error('longitude')
+                        <p class="text-xs text-rose-600 mt-1 font-medium">{{ $message }}</p>
+                    @enderror
                 </div>
             </div>
         </div>

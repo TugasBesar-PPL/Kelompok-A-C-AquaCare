@@ -29,39 +29,54 @@
         <!-- Judul -->
         <div>
             <label class="block text-xs font-semibold text-slate-700 mb-1">Judul Konten *</label>
-            <input type="text" name="judul" value="{{ old('judul') }}" required placeholder="Contoh: Pentingnya Menjaga Kebersihan Sumber Air" class="w-full text-xs border border-slate-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500">
+            <input type="text" name="judul" value="{{ old('judul') }}" required placeholder="Contoh: Pentingnya Menjaga Kebersihan Sumber Air" class="w-full text-xs border @error('judul') border-rose-500 ring-1 ring-rose-500 @else border-slate-300 @enderror rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500">
+            @error('judul')
+                <p class="text-xs text-rose-600 mt-1 font-medium">{{ $message }}</p>
+            @enderror
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <!-- Kategori -->
             <div>
-                <label class="block text-xs font-semibold text-slate-700 mb-1">Kategori Konten *</label>
-                <select name="kategori" required class="w-full text-xs border border-slate-300 rounded-lg px-3 py-2 bg-slate-50 focus:ring-2 focus:ring-blue-500">
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Kategori Konten * (pengumuman / edukasi)</label>
+                <select name="kategori" required class="w-full text-xs border @error('kategori') border-rose-500 ring-1 ring-rose-500 @else border-slate-300 @enderror rounded-lg px-3 py-2 bg-slate-50 focus:ring-2 focus:ring-blue-500">
                     <option value="edukasi" {{ old('kategori') == 'edukasi' ? 'selected' : '' }}>📚 Edukasi Air Bersih</option>
                     <option value="pengumuman" {{ old('kategori') == 'pengumuman' ? 'selected' : '' }}>📢 Pengumuman Operasional</option>
                 </select>
+                @error('kategori')
+                    <p class="text-xs text-rose-600 mt-1 font-medium">{{ $message }}</p>
+                @enderror
             </div>
 
             <!-- Status Publikasi -->
             <div>
                 <label class="block text-xs font-semibold text-slate-700 mb-1">Status Publikasi *</label>
-                <select name="status_publikasi" class="w-full text-xs border border-slate-300 rounded-lg px-3 py-2 bg-slate-50 focus:ring-2 focus:ring-blue-500">
+                <select name="status_publikasi" class="w-full text-xs border @error('status_publikasi') border-rose-500 ring-1 ring-rose-500 @else border-slate-300 @enderror rounded-lg px-3 py-2 bg-slate-50 focus:ring-2 focus:ring-blue-500">
                     <option value="published" {{ old('status_publikasi') == 'published' ? 'selected' : '' }}>Terbitkan Langsung (Published)</option>
                     <option value="draft" {{ old('status_publikasi') == 'draft' ? 'selected' : '' }}>Simpan sebagai Draft</option>
                 </select>
+                @error('status_publikasi')
+                    <p class="text-xs text-rose-600 mt-1 font-medium">{{ $message }}</p>
+                @enderror
             </div>
         </div>
 
         <!-- Gambar -->
         <div>
             <label class="block text-xs font-semibold text-slate-700 mb-1">Gambar Pendukung (Opsional, Max 5MB JPG/PNG)</label>
-            <input type="file" name="gambar" accept="image/png, image/jpeg, image/jpg" class="w-full text-xs border border-slate-300 rounded-lg px-3 py-1.5 file:mr-3 file:py-1 file:px-2.5 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+            <input type="file" name="gambar" accept="image/png, image/jpeg, image/jpg" class="w-full text-xs border @error('gambar') border-rose-500 ring-1 ring-rose-500 @else border-slate-300 @enderror rounded-lg px-3 py-1.5 file:mr-3 file:py-1 file:px-2.5 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+            @error('gambar')
+                <p class="text-xs text-rose-600 mt-1 font-medium">{{ $message }}</p>
+            @enderror
         </div>
 
         <!-- Isi Materi -->
         <div>
             <label class="block text-xs font-semibold text-slate-700 mb-1">Isi Artikel / Pengumuman *</label>
-            <textarea name="isi" rows="8" required placeholder="Tuliskan isi artikel edukasi atau pengumuman secara jelas di sini..." class="w-full text-xs border border-slate-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500">{{ old('isi') }}</textarea>
+            <textarea name="isi" rows="8" required placeholder="Tuliskan isi artikel edukasi atau pengumuman secara jelas di sini..." class="w-full text-xs border @error('isi') border-rose-500 ring-1 ring-rose-500 @else border-slate-300 @enderror rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500">{{ old('isi') }}</textarea>
+            @error('isi')
+                <p class="text-xs text-rose-600 mt-1 font-medium">{{ $message }}</p>
+            @enderror
         </div>
 
         <div class="flex items-center justify-end gap-3 pt-4 border-t border-slate-200">

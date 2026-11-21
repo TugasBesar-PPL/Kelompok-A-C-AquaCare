@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pengumuman;
-use App\Http\Requests\AnnouncementRequest;
+use App\Http\Requests\StoreAnnouncementRequest;
+use App\Http\Requests\UpdateAnnouncementRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
@@ -70,7 +71,7 @@ class AnnouncementController extends Controller
      * PBI-12: Terbitkan pengumuman atau artikel edukasi baru
      * Endpoint API: POST /announcements
      */
-    public function store(AnnouncementRequest $request)
+    public function store(StoreAnnouncementRequest $request)
     {
         $validated = $request->validated();
         $validated['admin_id'] = Auth::id() ?? 1; // Fallback jika belum auth
@@ -127,7 +128,7 @@ class AnnouncementController extends Controller
      * PBI-12: Perbarui pengumuman atau edukasi
      * Endpoint API: PUT /announcements/:id
      */
-    public function update(AnnouncementRequest $request, $id)
+    public function update(UpdateAnnouncementRequest $request, $id)
     {
         $content = Pengumuman::findOrFail($id);
         $validated = $request->validated();

@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\TitikSumberAir;
-use App\Http\Requests\WaterPointRequest;
+use App\Http\Requests\StoreWaterPointRequest;
+use App\Http\Requests\UpdateWaterPointRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -53,7 +54,7 @@ class WaterPointController extends Controller
      * PBI-01: Simpan titik sumber air baru
      * Endpoint API: POST /water-points
      */
-    public function store(WaterPointRequest $request)
+    public function store(StoreWaterPointRequest $request)
     {
         $validated = $request->validated();
 
@@ -109,7 +110,7 @@ class WaterPointController extends Controller
      * PBI-01: Perbarui data titik sumber air
      * Endpoint API: PUT /water-points/:id
      */
-    public function update(WaterPointRequest $request, $id)
+    public function update(UpdateWaterPointRequest $request, $id)
     {
         $point = TitikSumberAir::findOrFail($id);
         $validated = $request->validated();
