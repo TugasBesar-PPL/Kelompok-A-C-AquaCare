@@ -40,5 +40,10 @@ class TitikSumberAir extends Model
     {
         return $this->hasMany(PengukuranKualitasAir::class, 'titik_air_id');
     }
+
+    public function jadwalPemeriksaan()
+    {
+        return $this->hasMany(JadwalPemeriksaan::class, 'titik_air_id');
+    }
 }
 

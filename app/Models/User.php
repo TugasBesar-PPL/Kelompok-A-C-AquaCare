@@ -82,4 +82,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(LaporanMasalahAir::class, 'admin_verifikator_id');
     }
+
+    public function jadwalPemeriksaan()
+    {
+        return $this->hasMany(JadwalPemeriksaan::class, 'petugas_id');
+    }
 }

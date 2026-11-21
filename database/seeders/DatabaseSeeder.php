@@ -387,7 +387,53 @@ class DatabaseSeeder extends Seeder
             'tanggal_selesai' => null,
         ]);
 
-        // 5. Audit Log (PBI-17 stub / log records)
+        // 5. Jadwal Pemeriksaan Rutin (PBI-09)
+        \App\Models\JadwalPemeriksaan::create([
+            'titik_air_id' => $titikMap['ST-03'],
+            'petugas_id' => $petugas1->id, // Budi Santoso
+            'tanggal_jadwal' => Carbon::now()->addDay()->setTime(9, 0),
+            'durasi_menit' => 60,
+            'status_pemeriksaan' => 'dijadwalkan',
+            'catatan' => 'Pemeriksaan rutin turbidity dan pH di Sumur Bor RW 03.',
+        ]);
+
+        \App\Models\JadwalPemeriksaan::create([
+            'titik_air_id' => $titikMap['ST-02'],
+            'petugas_id' => $petugas1->id, // Budi Santoso
+            'tanggal_jadwal' => Carbon::now()->addDay()->setTime(10, 30),
+            'durasi_menit' => 60,
+            'status_pemeriksaan' => 'dijadwalkan',
+            'catatan' => 'Pemeriksaan lanjutan sambungan pipa PDAM Blok A.',
+        ]);
+
+        \App\Models\JadwalPemeriksaan::create([
+            'titik_air_id' => $titikMap['ST-07'],
+            'petugas_id' => $petugas2->id, // Agus Pratama
+            'tanggal_jadwal' => Carbon::now()->addDay()->setTime(9, 0),
+            'durasi_menit' => 90,
+            'status_pemeriksaan' => 'dijadwalkan',
+            'catatan' => 'Pemeriksaan kadar sisa klor dan kejernihan mata air Kenanga.',
+        ]);
+
+        \App\Models\JadwalPemeriksaan::create([
+            'titik_air_id' => $titikMap['ST-01'],
+            'petugas_id' => $petugas1->id,
+            'tanggal_jadwal' => Carbon::now()->subDays(2)->setTime(8, 30),
+            'durasi_menit' => 60,
+            'status_pemeriksaan' => 'selesai',
+            'catatan' => 'Pemeriksaan rutin berkala selesai, kondisi air normal.',
+        ]);
+
+        \App\Models\JadwalPemeriksaan::create([
+            'titik_air_id' => $titikMap['ST-11'],
+            'petugas_id' => $petugas2->id,
+            'tanggal_jadwal' => Carbon::now()->subDay()->setTime(14, 0),
+            'durasi_menit' => 60,
+            'status_pemeriksaan' => 'dibatalkan',
+            'catatan' => 'Dibatalkan sementara karena cuaca hujan lebat di lokasi.',
+        ]);
+
+        // 6. Audit Log (PBI-17 stub / log records)
         AuditLog::createAuditLog(
             $admin->id,
             'Verifikasi Laporan Diterima',

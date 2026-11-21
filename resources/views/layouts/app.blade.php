@@ -85,10 +85,10 @@
                     <span class="text-[10px] bg-slate-800 text-slate-400 px-1.5 py-0.5 rounded">PBI-03</span>
                 </a>
 
-                <!-- PBI-07: Verifikasi Laporan Warga -->
-                <div class="pt-1 pb-1">
+                <!-- Modul Fathir: PBI-07 & PBI-09 -->
+                <div class="pt-1 pb-1 space-y-1">
                     <div class="px-3.5 pb-1 text-[11px] font-semibold uppercase tracking-wider text-slate-500">
-                        Modul Pelaporan (Fathir)
+                        Modul Fathir (PBI 07, 09, 16)
                     </div>
                     <a href="{{ route('reports.verification') }}" 
                        class="flex items-center justify-between px-3.5 py-2.5 rounded-lg transition-colors {{ request()->routeIs('reports.verification') ? 'bg-cyan-600 text-white shadow-sm' : 'hover:bg-slate-800 text-slate-300 hover:text-white' }}">
@@ -100,15 +100,18 @@
                             {{ \App\Models\LaporanMasalahAir::where('status_laporan', 'Menunggu')->count() }}
                         </span>
                     </a>
-                </div>
 
-                <a href="#" class="flex items-center justify-between px-3.5 py-2.5 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-slate-200 transition-colors">
-                    <div class="flex items-center gap-3">
-                        <i class="fa-solid fa-calendar-check w-5 text-center text-base"></i>
-                        <span>Jadwal & Baku Mutu</span>
-                    </div>
-                    <span class="text-[10px] bg-slate-800 text-slate-400 px-1.5 py-0.5 rounded">PBI-09/18</span>
-                </a>
+                    <a href="{{ route('inspections.index') }}" 
+                       class="flex items-center justify-between px-3.5 py-2.5 rounded-lg transition-colors {{ request()->routeIs('inspections.*') ? 'bg-cyan-600 text-white shadow-sm' : 'hover:bg-slate-800 text-slate-300 hover:text-white' }}">
+                        <div class="flex items-center gap-3">
+                            <i class="fa-solid fa-calendar-check w-5 text-center text-base"></i>
+                            <span class="font-semibold">Jadwal Pemeriksaan</span>
+                        </div>
+                        <span class="text-xs px-2 py-0.5 rounded-full font-bold {{ request()->routeIs('inspections.*') ? 'bg-white text-cyan-700' : 'bg-blue-500 text-white' }}">
+                            {{ \App\Models\JadwalPemeriksaan::where('status_pemeriksaan', 'dijadwalkan')->count() }}
+                        </span>
+                    </a>
+                </div>
 
                 <a href="#" class="flex items-center justify-between px-3.5 py-2.5 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-slate-200 transition-colors">
                     <div class="flex items-center gap-3">
