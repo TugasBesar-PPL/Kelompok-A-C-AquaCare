@@ -7,6 +7,7 @@ use App\Models\BakuMutuParameter;
 use App\Services\BakuMutuService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class BakuMutuController extends Controller
@@ -54,17 +55,25 @@ class BakuMutuController extends Controller
             ->with('status', 'Versi baku mutu berhasil disimpan.');
     }
 
-    // ── JSON API ────────────────────────────────────────────────────────────
+    // ── Public / Petugas View & JSON API ────────────────────────────────────
 
     /**
      * GET /water-standards — daftar versi yang berlaku saat ini.
+     * Mengembalikan View jika dibuka di browser, atau JSON jika request API.
      */
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse|View
     {
-        $parameters = $this->bakuMutuService->versiBerlaku()
-            ->map(fn (BakuMutuParameter $p) => $this->parameterData($p));
+        $parameters = $this->bakuMutuService->versiBerlaku();
 
-        return response()->json(['data' => $parameters]);
+        if (! $request->expectsJson()) {
+            return view('baku-mutu.index', [
+                'parameters' => $parameters,
+            ]);
+        }
+
+        $formatted = $parameters->map(fn (BakuMutuParameter $p) => $this->parameterData($p));
+
+        return response()->json(['data' => $formatted]);
     }
 
     /**
@@ -84,16 +93,24 @@ class BakuMutuController extends Controller
     }
 
     /**
-     * GET /water-standards/{kode}/history — riwayat versi via API.
+     * GET /water-standards/{kode}/history — riwayat versi.
+     * Mengembalikan View jika dibuka di browser, atau JSON jika request API.
      */
-    public function history(string $kode): JsonResponse
+    public function history(Request $request, string $kode): JsonResponse|View
     {
-        $history = $this->bakuMutuService->riwayat($kode)
-            ->map(fn (BakuMutuParameter $p) => $this->parameterData($p) + [
-                'diubah_oleh' => $p->diubah_oleh,
-            ]);
+        $history = $this->bakuMutuService->riwayat($kode);
 
-        return response()->json(['data' => $history]);
+        if (! $request->expectsJson()) {
+            return view('baku-mutu.history', [
+                'history' => $history,
+            ]);
+        }
+
+        $formatted = $history->map(fn (BakuMutuParameter $p) => $this->parameterData($p) + [
+            'diubah_oleh' => $p->diubah_oleh,
+        ]);
+
+        return response()->json(['data' => $formatted]);
     }
 
     // ── Helper ──────────────────────────────────────────────────────────────

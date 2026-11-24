@@ -105,7 +105,7 @@ class AuthController extends Controller
             'password.confirmed' => 'Konfirmasi password tidak cocok.',
         ]);
 
-        $user = User::create([
+        User::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
             'phone' => $validated['phone'] ?? null,
@@ -115,11 +115,8 @@ class AuthController extends Controller
             'login_gagal' => 0,
         ]);
 
-        Auth::login($user);
-        $request->session()->regenerate();
-
-        return redirect()->route('warga.lapor')
-            ->with('success', 'Pendaftaran berhasil! Selamat datang di AquaCare.');
+        return redirect()->route('login')
+            ->with('success', 'Pendaftaran akun warga berhasil! Silakan masuk dengan akun Anda.');
     }
 
     public function logout(Request $request)
@@ -150,10 +147,9 @@ class AuthController extends Controller
 
     private function redirectBasedOnRole(User $user)
     {
-        return match ($user->role) {
-            'admin' => redirect()->route('baku-mutu.admin.index'),
-            'petugas' => redirect()->route('baku-mutu.index'),
-            default => redirect()->route('warga.lapor'),
-        };
+        if ($user->isAdmin()) {
+            return redirect()->route('baku-mutu.admin.index');
+        }
+        return redirect()->route('baku-mutu.index');
     }
 }
