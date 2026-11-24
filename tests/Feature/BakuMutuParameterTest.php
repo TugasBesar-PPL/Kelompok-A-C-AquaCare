@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use Database\Seeders\BakuMutuParameterSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -7,6 +8,16 @@ uses(RefreshDatabase::class);
 
 beforeEach(function () {
     $this->seed(BakuMutuParameterSeeder::class);
+
+    $this->admin = User::create([
+        'name' => 'Admin Arrival',
+        'email' => 'admin_test@aquacare.id',
+        'password' => bcrypt('password123'),
+        'role' => 'admin',
+        'is_active' => true,
+    ]);
+
+    $this->actingAs($this->admin);
 });
 
 // ── API: GET /water-standards ───────────────────────────────────────────────
