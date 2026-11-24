@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Baku Mutu Parameter Air - AquaCare Admin')
-@section('breadcrumb-parent', 'ADMIN')
+@section('title', 'Baku Mutu Parameter Air - AquaCare')
+@section('breadcrumb-parent', Auth::check() ? strtoupper(Auth::user()->role) : 'STANDAR')
 @section('breadcrumb-title', 'Baku Mutu Parameter Air')
 
 @section('content')
@@ -67,14 +67,21 @@
                             </td>
                             <td class="py-4 px-6 text-center">
                                 <div class="inline-flex items-center gap-2">
-                                    <a href="{{ route('baku-mutu.admin.edit', $parameter->kode_parameter) }}" 
-                                       class="px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-700 text-white font-bold text-xs shadow-xs transition-colors">
-                                        <i class="fa-solid fa-pen-to-square mr-1"></i> Ubah
-                                    </a>
-                                    <a href="{{ route('baku-mutu.admin.history', $parameter->kode_parameter) }}" 
-                                       class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs border border-slate-200 transition-colors">
-                                        <i class="fa-solid fa-clock-rotate-left mr-1 text-slate-400"></i> Riwayat
-                                    </a>
+                                    @if(Auth::check() && Auth::user()->isAdmin())
+                                        <a href="{{ route('baku-mutu.admin.edit', $parameter->kode_parameter) }}" 
+                                           class="px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-700 text-white font-bold text-xs shadow-xs transition-colors">
+                                            <i class="fa-solid fa-pen-to-square mr-1"></i> Ubah
+                                        </a>
+                                        <a href="{{ route('baku-mutu.admin.history', $parameter->kode_parameter) }}" 
+                                           class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs border border-slate-200 transition-colors">
+                                            <i class="fa-solid fa-clock-rotate-left mr-1 text-slate-400"></i> Riwayat
+                                        </a>
+                                    @else
+                                        <a href="{{ route('baku-mutu.history', $parameter->kode_parameter) }}" 
+                                           class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs border border-slate-200 transition-colors">
+                                            <i class="fa-solid fa-clock-rotate-left mr-1 text-slate-400"></i> Riwayat
+                                        </a>
+                                    @endif
                                 </div>
                             </td>
                         </tr>

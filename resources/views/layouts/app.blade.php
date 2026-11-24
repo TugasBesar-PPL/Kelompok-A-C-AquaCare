@@ -63,10 +63,12 @@
                 <div class="flex flex-col">
                     <span class="font-bold text-xl text-white tracking-tight">AquaCare</span>
                     <span class="text-[11px] text-slate-400 font-medium">
-                        @if(Auth::check() && Auth::user()->isWarga())
-                            Layanan Laporan Air
-                        @elseif(Auth::check() && Auth::user()->isAdmin())
+                        @if(Auth::check() && Auth::user()->isAdmin())
                             Panel Administrator
+                        @elseif(Auth::check() && Auth::user()->isPetugas())
+                            Petugas Lapangan
+                        @elseif(Auth::check() && Auth::user()->isWarga())
+                            Portal Warga
                         @else
                             Monitoring Air Bersih
                         @endif
@@ -77,20 +79,7 @@
             <!-- Navigation Links -->
             <nav class="flex-1 px-4 py-6 space-y-2 text-sm font-medium">
                 @auth
-                    @if(Auth::user()->isWarga())
-                        <!-- Menu Warga (Matching Screenshot) -->
-                        <a href="{{ route('warga.laporan') }}" 
-                           class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all {{ request()->routeIs('warga.laporan') ? 'bg-cyan-500 text-white shadow-md shadow-cyan-500/20 font-semibold' : 'text-slate-300 hover:text-white hover:bg-slate-800/60' }}">
-                            <i class="fa-solid fa-list-check w-5 text-center"></i>
-                            <span>Daftar Laporan Saya</span>
-                        </a>
-
-                        <a href="{{ route('warga.lapor') }}" 
-                           class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all {{ request()->routeIs('warga.lapor') ? 'bg-cyan-500 text-white shadow-md shadow-cyan-500/20 font-semibold' : 'text-slate-300 hover:text-white hover:bg-slate-800/60' }}">
-                            <i class="fa-solid fa-circle-plus w-5 text-center"></i>
-                            <span>Ajukan Laporan</span>
-                        </a>
-                    @elseif(Auth::user()->isAdmin())
+                    @if(Auth::user()->isAdmin())
                         <!-- Menu Admin -->
                         <div class="px-4 pb-1 text-[11px] font-bold uppercase tracking-wider text-slate-500">
                             Pengaturan & Standar
@@ -110,11 +99,14 @@
                             <span>Kelola Akun (FD-03)</span>
                         </a>
                     @else
-                        <!-- Menu Petugas -->
+                        <!-- Menu Petugas & Warga -->
+                        <div class="px-4 pb-1 text-[11px] font-bold uppercase tracking-wider text-slate-500">
+                            Informasi Kualitas Air
+                        </div>
                         <a href="{{ route('baku-mutu.index') }}" 
-                           class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all {{ request()->routeIs('baku-mutu.*') ? 'bg-cyan-500 text-white shadow-md shadow-cyan-500/20 font-semibold' : 'text-slate-300 hover:text-white hover:bg-slate-800/60' }}">
+                           class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all {{ request()->routeIs('baku-mutu.index') ? 'bg-cyan-500 text-white shadow-md shadow-cyan-500/20 font-semibold' : 'text-slate-300 hover:text-white hover:bg-slate-800/60' }}">
                             <i class="fa-solid fa-flask-vial w-5 text-center"></i>
-                            <span>Standar Kualitas Air</span>
+                            <span>Standar Baku Mutu Air</span>
                         </a>
                     @endif
                 @else
@@ -155,7 +147,7 @@
 
         <!-- Main Content Area -->
         <div class="flex-1 flex flex-col min-w-0 bg-[#f8fafc]">
-            <!-- Top Navbar (Matching Screenshot) -->
+            <!-- Top Navbar -->
             <header class="h-20 bg-white border-b border-slate-200/80 px-8 flex items-center justify-between sticky top-0 z-30 shadow-xs">
                 <!-- Breadcrumbs -->
                 <div class="flex flex-col">

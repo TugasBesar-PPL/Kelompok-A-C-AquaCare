@@ -35,8 +35,7 @@ test('warga can register and is assigned role warga', function () {
         'password_confirmation' => 'password123',
     ]);
 
-    $response->assertRedirect('/warga/lapor');
-    $this->assertAuthenticated();
+    $response->assertRedirect('/login');
 
     $user = User::where('email', 'budiwarga@example.com')->first();
     expect($user)->not->toBeNull()
