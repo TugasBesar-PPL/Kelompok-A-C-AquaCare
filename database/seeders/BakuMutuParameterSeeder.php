@@ -64,13 +64,21 @@ class BakuMutuParameterSeeder extends Seeder
         ];
 
         foreach ($parameters as $parameter) {
-            BakuMutuParameter::updateOrCreate(
-                [
-                    'kode_parameter'  => $parameter['kode_parameter'],
-                    'tanggal_berlaku' => $tanggalBerlaku,
-                ],
-                [...$parameter, 'tanggal_berlaku' => $tanggalBerlaku],
-            );
+            $record = BakuMutuParameter::query()
+                ->where('kode_parameter', $parameter['kode_parameter'])
+                ->whereDate('tanggal_berlaku', $tanggalBerlaku)
+                ->first();
+
+            if (!$record) {
+                $record = new BakuMutuParameter();
+            }
+
+            $record->fill([
+                ...$parameter,
+                'tanggal_berlaku' => $tanggalBerlaku,
+            ]);
+
+            $record->save();
         }
     }
 }

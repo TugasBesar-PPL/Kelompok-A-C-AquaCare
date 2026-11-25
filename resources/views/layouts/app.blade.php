@@ -108,6 +108,21 @@
                             <i class="fa-solid fa-flask-vial w-5 text-center"></i>
                             <span>Standar Baku Mutu Air</span>
                         </a>
+                        @if(Auth::user()->isWarga())
+                            <div class="pt-4 px-4 pb-1 text-[11px] font-bold uppercase tracking-wider text-slate-500">
+                                Pelaporan Warga
+                            </div>
+                            <a href="{{ route('reports.create') }}"
+                               class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all {{ request()->routeIs('reports.create') ? 'bg-cyan-500 text-white shadow-md shadow-cyan-500/20 font-semibold' : 'text-slate-300 hover:text-white hover:bg-slate-800/60' }}">
+                                <i class="fa-solid fa-file-circle-plus w-5 text-center"></i>
+                                <span>Buat Laporan</span>
+                            </a>
+                            <a href="{{ route('reports.index') }}"
+                               class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all {{ request()->routeIs('reports.index') || request()->routeIs('reports.show') ? 'bg-cyan-500 text-white shadow-md shadow-cyan-500/20 font-semibold' : 'text-slate-300 hover:text-white hover:bg-slate-800/60' }}">
+                                <i class="fa-solid fa-list-check w-5 text-center"></i>
+                                <span>Laporan Saya</span>
+                            </a>
+                        @endif
                     @endif
                 @else
                     <a href="{{ route('login') }}" 
